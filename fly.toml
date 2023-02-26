@@ -1,0 +1,44 @@
+app = "" # Name of fly app
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
+
+# Mount Volume by Name
+[mounts]
+  source="ghost"
+  destination="/var/lib/ghost/content"
+
+# Add Env configs
+[env]
+  url = "" # Domain
+  database__client = "mysql"
+  database__connection__host = "" # MYSQL Host  (fly-mysql.internal)
+  database__connection__user = ""
+  database__connection__password = ""
+  database__connection__database = ""
+  mail__transport = "SMTP"
+  mail__options__service = "Mailgun"
+  mail__options__auth__user = ""
+  mail__options__auth__pass = ""
+  
+[experimental]
+  auto_rollback = true
+
+[build]
+  image = "ghost:latest"
+
+
+[[services]]
+  http_checks = []
+  internal_port = 2368
+  processes = ["app"]
+  protocol = "tcp"
+  script_checks = []
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443

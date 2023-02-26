@@ -1,0 +1,24 @@
+app = ""
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
+
+[mounts]
+  source="" # name of the repo
+  destination="/data"
+
+[env]
+  MYSQL_DATABASE = ""
+  MYSQL_USER = ""
+
+[build]
+  image = "mysql:8"
+
+[experimental]
+  auto_rollback = true
+  cmd = [
+    "--default-authentication-plugin", "mysql_native_password",
+    "--datadir", "/data/mysql",
+    "--performance-schema=OFF",
+    "--innodb-buffer-pool-size", "64M"
+  ]
