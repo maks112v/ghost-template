@@ -5,7 +5,7 @@ processes = []
 
 # Mount Volume by Name
 [mounts]
-  source="ghost"
+  source="ghost_data"
   destination="/var/lib/ghost/content"
 
 # Add Env configs
